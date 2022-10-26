@@ -27,6 +27,7 @@ const tabela = document.querySelector('[data-tabela]');
 tabela.addEventListener('click', (e) => {
   e.preventDefault()
   let ehBotaoDeletar = e.target.className === 'botao-simples botao-simples--excluir'
+  let ehBotaoEditar = e.target.className === 'botao-simples botao-simples--editar'
 
   if(ehBotaoDeletar){
     const linhaCliente =  e.target.closest('[data-id]');
@@ -35,6 +36,11 @@ tabela.addEventListener('click', (e) => {
       .then(() => {
         linhaCliente.remove()
       })
+  }
+  if(ehBotaoEditar){
+    const linhaCliente =  e.target.closest('[data-id]');
+    let id = linhaCliente.dataset.id;
+    window.location.href = `../telas/edita_cliente.html?id=${id}`
   }
 })
 
