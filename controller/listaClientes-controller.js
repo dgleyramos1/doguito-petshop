@@ -24,7 +24,7 @@ const criaNovaLinha = (nome, email, id) => {
 
 const tabela = document.querySelector('[data-tabela]');
 
-tabela.addEventListener('click', (e) => {
+tabela.addEventListener('click', async (e) => {
   e.preventDefault()
   let ehBotaoDeletar = e.target.className === 'botao-simples botao-simples--excluir'
   let ehBotaoEditar = e.target.className === 'botao-simples botao-simples--editar'
@@ -32,10 +32,8 @@ tabela.addEventListener('click', (e) => {
   if(ehBotaoDeletar){
     const linhaCliente =  e.target.closest('[data-id]');
     let id = linhaCliente.dataset.id;
-    clienteService.removeCliente(id)
-      .then(() => {
-        linhaCliente.remove()
-      })
+    await clienteService.removeCliente(id)
+    linhaCliente.remove()
   }
   if(ehBotaoEditar){
     const linhaCliente =  e.target.closest('[data-id]');
@@ -44,9 +42,13 @@ tabela.addEventListener('click', (e) => {
   }
 })
 
-clienteService.listaClientes()
-  .then(data => {
-    data.forEach(element => {
-      tabela.appendChild(criaNovaLinha(element.nome, element.email, element.id))
-    })
-  })
+
+const render = async () => {
+  const listaCliente = await clienteService.listaClientes();
+  listaCliente.forEach(element => {
+        tabela.appendChild(criaNovaLinha(element.nome, element.email, element.id))
+      })
+}
+
+
+render();

@@ -1,13 +1,11 @@
-const listaClientes = () => {
-  return fetch(`http://localhost:3000/profile`)
-          .then(response => {
-            return response.json();
-          })
+const listaClientes = async () => {
+  const response = await fetch(`http://localhost:3000/profile`);
+  return await response.json();
 }
 
 
-const criaCliente = (nome, email) =>{
-  return fetch(`http://localhost:3000/profile`, {
+const criaCliente = async (nome, email) =>{
+  const response = await fetch(`http://localhost:3000/profile`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -16,10 +14,8 @@ const criaCliente = (nome, email) =>{
       nome: nome,
       email: email
     })
-  })
-  .then( response => {
-    return response.body
-  })
+  });
+  return response.body;
 }
 
 
@@ -29,15 +25,13 @@ const removeCliente = (id) => {
   })
 }
 
-const detalhaCliente = (id) => {
-  return fetch(`http://localhost:3000/profile/${id}`)
-          .then(response => {
-            return response.json();
-          })
+const detalhaCliente = async (id) => {
+  const response = await fetch(`http://localhost:3000/profile/${id}`);
+  return await response.json();
 }
 
-const atualizaCliente = (id, nome, email) => {
-  return fetch(`http://localhost:3000/profile/${id}`, {
+const atualizaCliente = async (id, nome, email) => {
+  const response = await fetch(`http://localhost:3000/profile/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -48,10 +42,8 @@ const atualizaCliente = (id, nome, email) => {
         email: email
       }
     )
-  })
-  .then( response => {
-    return response.json()
-  })
+  });
+  return await response.json();
 }
 
 export const clienteService = {
