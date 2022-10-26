@@ -30,10 +30,15 @@ tabela.addEventListener('click', async (e) => {
   let ehBotaoEditar = e.target.className === 'botao-simples botao-simples--editar'
 
   if(ehBotaoDeletar){
-    const linhaCliente =  e.target.closest('[data-id]');
-    let id = linhaCliente.dataset.id;
-    await clienteService.removeCliente(id)
-    linhaCliente.remove()
+    try {
+      const linhaCliente =  e.target.closest('[data-id]');
+      let id = linhaCliente.dataset.id;
+      await clienteService.removeCliente(id)
+      linhaCliente.remove()
+    } catch (error) {
+      console.log(error);
+      window.location.href = '../telas/erro.html'
+    }
   }
   if(ehBotaoEditar){
     const linhaCliente =  e.target.closest('[data-id]');
@@ -44,10 +49,15 @@ tabela.addEventListener('click', async (e) => {
 
 
 const render = async () => {
-  const listaCliente = await clienteService.listaClientes();
-  listaCliente.forEach(element => {
-        tabela.appendChild(criaNovaLinha(element.nome, element.email, element.id))
-      })
+  try {
+    const listaCliente = await clienteService.listaClientes();
+    listaCliente.forEach(element => {
+          tabela.appendChild(criaNovaLinha(element.nome, element.email, element.id))
+        })
+  } catch (error) {
+    console.log(error);
+    window.location.href = '../telas/erro.html'
+  }
 }
 
 

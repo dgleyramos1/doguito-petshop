@@ -8,8 +8,11 @@ formulario.addEventListener('submit', (e) => {
   const nome = e.target.querySelector('[data-nome]').value;
   const email = e.target.querySelector('[data-email]').value;
 
-  clienteService.criaCliente(nome, email)
-      .then(() => {
-        window.location.href = '../telas/cadastro_concluido.html'
-      })
+  try {
+    await clienteService.criaCliente(nome, email)
+    window.location.href = '../telas/cadastro_concluido.html'
+  } catch (error) {
+    console.log(error);
+    window.location.href = '../telas/erro.html'
+  }
 })

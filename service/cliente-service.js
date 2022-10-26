@@ -1,11 +1,16 @@
-const listaClientes = async () => {
-  const response = await fetch(`http://localhost:3000/profile`);
-  return await response.json();
+const listaClientes = () => {
+  return fetch(`http://localhost:3000/profile`)
+          .then(response => {
+            if(response.ok){
+              return response.json();
+            }
+            throw new Error('Não foi possível listar os clientes');
+          })
 }
 
 
-const criaCliente = async (nome, email) =>{
-  const response = await fetch(`http://localhost:3000/profile`, {
+const criaCliente = (nome, email) =>{
+  return fetch(`http://localhost:3000/profile`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -14,24 +19,38 @@ const criaCliente = async (nome, email) =>{
       nome: nome,
       email: email
     })
-  });
-  return response.body;
+  })
+  .then( response => {
+    if(response.ok){
+      return response.body
+    }
+    throw new Error('Não foi possível criar um cliente');
+  })
 }
 
 
 const removeCliente = (id) => {
   return fetch(`http://localhost:3000/profile/${id}`, {
     method: 'DELETE'
+  }).then(response => {
+    if(!response.ok){
+      throw new Error('Não foi possível remover cliente');
+    }
   })
 }
 
-const detalhaCliente = async (id) => {
-  const response = await fetch(`http://localhost:3000/profile/${id}`);
-  return await response.json();
+const detalhaCliente = (id) => {
+  return fetch(`http://localhost:3000/profile/${id}`)
+          .then(response => {
+            if(response.ok){
+              return response.json();
+            }
+            throw new Error('Não foi possível detalhar o cliente');
+          })
 }
 
-const atualizaCliente = async (id, nome, email) => {
-  const response = await fetch(`http://localhost:3000/profile/${id}`, {
+const atualizaCliente = (id, nome, email) => {
+  return fetch(`http://localhost:3000/profile/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -42,8 +61,13 @@ const atualizaCliente = async (id, nome, email) => {
         email: email
       }
     )
-  });
-  return await response.json();
+  })
+  .then( response => {
+    if(response.ok){
+      return response.json()
+    }
+    throw new Error('Não foi possível atualizar o cliente');
+  })
 }
 
 export const clienteService = {
